@@ -329,7 +329,12 @@ contactForm?.addEventListener('submit', async e => {
     });
     const data = await res.json();
 
-    if (data.success === 'true' || data.success === true) {
+    const isSuccess    = data.success === 'true' || data.success === true;
+    // FormSubmit sends an activation email on first use — treat as success
+    const isActivation = !isSuccess && typeof data.message === 'string' &&
+                         data.message.toLowerCase().includes('activation');
+
+    if (isSuccess || isActivation) {
       btn.textContent = 'Message Sent ✓';
       btn.style.background = '#2a7a4b';
       contactForm.reset();
@@ -339,9 +344,10 @@ contactForm?.addEventListener('submit', async e => {
         btn.disabled = false;
       }, 5000);
     } else {
-      throw new Error('Submission failed');
+      throw new Error(data.message || 'Submission failed');
     }
-  } catch {
+  } catch (err) {
+    console.error('[CGP Form]', err.message);
     btn.textContent = 'Failed — Please Try Again';
     btn.style.background = '#8b1a1a';
     setTimeout(() => {
