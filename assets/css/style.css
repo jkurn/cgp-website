@@ -1631,3 +1631,39 @@ h3 { font-size: 1.25rem; font-weight: 600; }
 @media (max-width: 768px) {
   .footer-social { justify-content: center; }
 }
+
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  /* Disable scroll-reveal transitions */
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  /* Disable hero entry animations */
+  .hero-eyebrow,
+  .hero-content h1,
+  .hero-content p,
+  .hero-ctas {
+    animation: none;
+    opacity: 1;
+  }
+
+  /* Disable hero scroll indicator bounce */
+  .hero-scroll { animation: none; }
+
+  /* Disable distribution marquee scroll */
+  .marquee-track { animation: none; }
+
+  /* Disable stat counter animation — show final values immediately */
+  .stat-number { transition: none; }
+
+  /* Disable card hover transforms */
+  .brand-card:hover,
+  .news-card:hover,
+  .btn-primary:hover,
+  .btn-wa:hover { transform: none; }
+}
