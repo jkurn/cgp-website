@@ -1,0 +1,29 @@
+{
+  "date": "2026-04-07",
+  "url": "https://jkurn.github.io/cgp-website/",
+  "designScore": "B+",
+  "aiSlopScore": "A-",
+  "categoryGrades": {
+    "hierarchy": "B+",
+    "typography": "B",
+    "color": "A",
+    "spacing": "A",
+    "interaction": "B+",
+    "responsive": "B+",
+    "motion": "B",
+    "content": "B",
+    "aiSlop": "A-",
+    "performance": "B"
+  },
+  "findings": [
+    { "id": "FINDING-001", "title": "Nav link touch targets too small (17px)", "impact": "high", "category": "interaction", "status": "verified", "commit": "5f96bf4" },
+    { "id": "FINDING-002", "title": "Carousel dots 8x8px hit area", "impact": "high", "category": "interaction", "status": "verified", "commit": "ed06659" },
+    { "id": "FINDING-003", "title": "Hero overlay too dark — food photography invisible", "impact": "high", "category": "hierarchy", "status": "verified", "commit": "e9fa6a8" },
+    { "id": "FINDING-004", "title": "News h4: undefined CSS variable --font-serif", "impact": "high", "category": "typography", "status": "verified", "commit": "42d7c5c" },
+    { "id": "FINDING-005", "title": "No prefers-reduced-motion support", "impact": "medium", "category": "motion", "status": "verified", "commit": "cac4af3" },
+    { "id": "FINDING-006", "title": "Scroll reveal threshold 0.12 too aggressive", "impact": "medium", "category": "motion", "status": "verified", "commit": "03e9d39" },
+    { "id": "FINDING-P01", "title": "h3 scale too close to body text (1.25x vs 1.33x)", "impact": "polish", "category": "typography", "status": "deferred" },
+    { "id": "FINDING-P02", "title": "transition: all on .btn — use explicit properties", "impact": "polish", "category": "motion", "status": "deferred" },
+    { "id": "FINDING-P03", "title": "3-value-cards layout matches AI template pattern", "impact": "polish", "category": "aiSlop", "status": "noted" }
+  ]
+}
