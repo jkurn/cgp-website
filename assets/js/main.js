@@ -249,10 +249,13 @@ const AUTO_INTERVAL   = 5000; // ms per slide
 const PROGRESS_STEP   = 100 / (AUTO_INTERVAL / 60); // % per ~60ms frame
 
 function goToSlide(index) {
+  const next = (index + partnerSlides.length) % partnerSlides.length;
+  if (next === currentSlide) return;
+
   partnerSlides[currentSlide].classList.remove('active');
   partnerDots[currentSlide].classList.remove('active');
 
-  currentSlide = (index + partnerSlides.length) % partnerSlides.length;
+  currentSlide = next;
 
   partnerSlides[currentSlide].classList.add('active');
   partnerDots[currentSlide].classList.add('active');
