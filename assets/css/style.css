@@ -13,12 +13,12 @@
   --charcoal-3: #6B6B78;
   --burgundy:   #7B1D26;
   --burgundy-2: #9E2736;
-  --gold:       #C5993A;
-  --gold-light: #DDB95A;
+  --gold:       #9C7A3C;
+  --gold-light: #B89652;
   --border:     #E4DDD0;
 
-  --font-display: 'Playfair Display', Georgia, serif;
-  --font-body:    'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body:    'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
 
   --section-pad: 96px 0;
   --container:   1200px;
@@ -31,7 +31,7 @@ body {
   font-family: var(--font-body);
   background: var(--cream);
   color: var(--charcoal);
-  line-height: 1.65;
+  line-height: 1.75;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -45,10 +45,10 @@ a  { text-decoration: none; color: inherit; }
 }
 
 /* ---------- Typography ---------- */
-h1,h2,h3,h4 { font-family: var(--font-display); line-height: 1.2; }
-h1 { font-size: clamp(2.4rem, 5vw, 3.8rem); font-weight: 700; }
-h2 { font-size: clamp(1.8rem, 3.2vw, 2.6rem); font-weight: 600; }
-h3 { font-size: 1.25rem; font-weight: 600; }
+h1,h2,h3,h4 { font-family: var(--font-display); line-height: 1.15; }
+h1 { font-size: clamp(2.4rem, 5vw, 3.8rem); font-weight: 600; letter-spacing: -0.02em; }
+h2 { font-size: clamp(1.8rem, 3.2vw, 2.6rem); font-weight: 600; letter-spacing: -0.015em; }
+h3 { font-size: 1.4rem; font-weight: 600; letter-spacing: -0.01em; }
 
 .eyebrow {
   font-family: var(--font-body);
