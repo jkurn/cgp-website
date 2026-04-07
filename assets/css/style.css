@@ -260,19 +260,24 @@ h3 { font-size: 1.4rem; font-weight: 600; letter-spacing: -0.01em; }
   min-height: 680px;
   display: flex;
   align-items: center;
-  background: url('../images/hero-bg.jpg') center center / cover no-repeat;
+  background-color: #110d0b;
+  /* Replace background-image with a real hero photograph when available.
+     Ideal: overhead shot of premium food spread, spice market, or kitchen
+     table — warm tones, high contrast, landscape orientation (min 1600px wide).
+     Source: Unsplash (unsplash.com/s/photos/gourmet-food-spread) or own photography.
+     When ready: background: url('../images/hero-bg.jpg') center center / cover no-repeat; */
   overflow: hidden;
 }
 
 .hero-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(18,10,12,0.65) 0%,
-    rgba(28,20,22,0.52) 60%,
-    rgba(14,10,10,0.38) 100%
-  );
+  /* Warm, moody brand gradient — left-side burgundy warmth anchors the text;
+     right side opens to a muted gold-brown. Intentional without a photo. */
+  background:
+    radial-gradient(ellipse 70% 90% at 15% 60%, rgba(123,29,38,0.45) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 60% at 85% 25%, rgba(156,122,60,0.12) 0%, transparent 55%),
+    linear-gradient(160deg, #1a0e0b 0%, #1e1510 45%, #161210 100%);
 }
 
 /* Decorative gold accent line */
