@@ -168,6 +168,7 @@ h3 { font-size: 1.25rem; font-weight: 600; }
   color: rgba(255,255,255,0.82);
   transition: color var(--transition);
   position: relative;
+  padding: 14px 4px;
 }
 .nav-links a::after {
   content: '';
