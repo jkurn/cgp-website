@@ -312,20 +312,44 @@ const revealObserver = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
-/* ---------- Contact Form ---------- */
+/* ---------- Contact Form (FormSubmit AJAX) ---------- */
 const contactForm = document.getElementById('contactForm');
-contactForm?.addEventListener('submit', e => {
+contactForm?.addEventListener('submit', async e => {
   e.preventDefault();
   const btn = contactForm.querySelector('.btn-submit');
-  btn.textContent = 'Message Sent ✓';
-  btn.style.background = '#2a7a4b';
+  const originalText = btn.textContent;
+  btn.textContent = 'Sending…';
   btn.disabled = true;
-  setTimeout(() => {
-    btn.textContent = 'Send Inquiry';
-    btn.style.background = '';
-    btn.disabled = false;
-    contactForm.reset();
-  }, 4000);
+
+  try {
+    const res = await fetch('https://formsubmit.co/ajax/info@cgp.co.id', {
+      method: 'POST',
+      headers: { 'Accept': 'application/json' },
+      body: new FormData(contactForm)
+    });
+    const data = await res.json();
+
+    if (data.success === 'true' || data.success === true) {
+      btn.textContent = 'Message Sent ✓';
+      btn.style.background = '#2a7a4b';
+      contactForm.reset();
+      setTimeout(() => {
+        btn.textContent = originalText;
+        btn.style.background = '';
+        btn.disabled = false;
+      }, 5000);
+    } else {
+      throw new Error('Submission failed');
+    }
+  } catch {
+    btn.textContent = 'Failed — Please Try Again';
+    btn.style.background = '#8b1a1a';
+    setTimeout(() => {
+      btn.textContent = originalText;
+      btn.style.background = '';
+      btn.disabled = false;
+    }, 4000);
+  }
 });
 
 /* ---------- Stat counter animation ---------- */
