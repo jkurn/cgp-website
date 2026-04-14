@@ -183,9 +183,9 @@ const brandData = {
   fnv: {
     name: "FNV",
     origin: "Australia",
-    category: "Snacks",
+    category: "Premium Foods",
     img: null,
-    desc: "FNV produces premium wholegrain snack bars combining brown rice with nuts, seaweed, and protein — a better-for-you snack brand for the premium convenience and specialty grocery channel.",
+    desc: "FNV produces premium wholegrain snack bars combining brown rice with nuts, seaweed, and protein — distributed across Indonesia's premium modern trade and specialty grocery channels.",
     products: [
       { en: "Seaweed Walnut Brown Rice Bar", id: "Makanan Ringan Berbentuk Bar dengan Campuran Rumput Laut, Kacang Kenari dan Beras Merah" },
       { en: "Almond Brown Rice Bar with Pork Floss", id: "Makanan Ringan Berbentuk Bar dengan Kacang Almond, Beras Merah, dan Abon Babi" },
@@ -243,7 +243,7 @@ const categoryData = {
     name: "Snacks",
     img: "assets/images/brands/edgell-product.jpg",
     desc: "Better-for-you snack brands — lentil chips, brown rice bars, and Vietnamese confectionery — positioned for premium retail and specialty grocery.",
-    products: ["oho! — Lentil Chips", "FNV — Brown Rice Snack Bars", "Nam Xanh — Vietnamese Confectionery"]
+    products: ["oho! — Lentil Chips", "Nam Xanh — Vietnamese Confectionery"]
   },
   wellness: {
     name: "Wellness & Health",
