@@ -35,6 +35,8 @@ langToggle?.addEventListener('click', () => {
   langToggle.innerHTML = currentLang === 'EN'
     ? '<span class="active">EN</span> / ID'
     : 'EN / <span class="active">ID</span>';
+  // Re-render modal product list if a modal is open
+  if (currentModalData) renderModalProducts(currentModalData);
 });
 
 /* ---------- Portfolio Tabs ---------- */
@@ -63,6 +65,8 @@ const modalCategory = document.getElementById('modalCategory');
 const modalDesc     = document.getElementById('modalDesc');
 const modalProducts = document.getElementById('modalProducts');
 
+/* Product names support { en, id } objects — rendered per currentLang.
+   Strings are kept for category brand-roll-ups (language-neutral). */
 const brandData = {
   leggos: {
     name: "Leggo's",
@@ -70,7 +74,27 @@ const brandData = {
     category: "Sauces & Pastes",
     img: "assets/images/brands/leggos-product.jpg",
     desc: "Leggo's is one of Australia's most trusted pasta sauce brands with over 100 years of heritage. CGP is the exclusive distributor for the Indonesian market, offering the full range of pasta sauces, passata, and crushed tomatoes.",
-    products: ["Passata Sauce — Italian Herbs & Basil 700g", "Crushed Tomatoes 2.9kg", "Tomato Pasta Sauce 500g", "Bolognese Sauce 500g"]
+    products: [
+      { en: "Alfredo with Fresh Cream & Cheese Pasta Sauce", id: "Saus Pasta Alfredo dengan Krim dan Keju" },
+      { en: "Lasagne Bechamel Cheese Sauce", id: "Saus Bechamel untuk Lasagna" },
+      { en: "Bolognese with Chunky Tomato, Garlic & Herbs Pasta Sauce", id: "Saus Pasta Bolognese" },
+      { en: "Carbonara with Fresh Cream, Onion & Cheese Paste Sauce", id: "Saus Pasta Carbonara dengan Krim, Bawang Bombay, dan Keju" },
+      { en: "Pasta Bake with Creamy Tomato & Mozzarella", id: "Saus Pasta Panggang dengan Krim, Tomat, dan Mozzarella" },
+      { en: "Napoletana with Chunky Tomato & Herbs Pasta Sauce", id: "Saus Pasta Napoletana" },
+      { en: "Passata Sauce Italian Herbs with Basil and Parsley", id: "Saus Pasta Italia dengan Basil dan Parsley" },
+      { en: "Sauce Passata Classic", id: "Saus Tomat Klasik" },
+      { en: "Pesto Basil", id: "Saus Kemangi" },
+      { en: "Puree Tomat", id: "Puree Tomat" },
+      { en: "Pasta Bake with Tomato, Ricotta & Spinach", id: "Saus Panggang dengan Tomat, Ricotta, dan Bayam" },
+      { en: "Roasted Garlic with Chunky Tomato & Onion Pasta Sauce", id: "Saus Pasta dengan Bawang Putih Panggang, Tomat, dan Bawang Bombay" },
+      { en: "Stir Through Tomato, Olive & Chilli", id: "Saus Tomat dengan Campuran Zaitun, dan Cabai" },
+      { en: "Pasta Bake with Three Cheese Sauce", id: "Saus Putih untuk Pasta Panggang dengan Keju" },
+      { en: "Crushed Tomatoes", id: "Tomat Cincang" },
+      { en: "Tomato Paste", id: "Pasta Tomat" },
+      { en: "Sauce for Tuna Bake with Spinach & Garlic", id: "Saus Pasta Panggang untuk Tuna dengan Bayam & Bawang Putih" },
+      { en: "Bolognese with Bacon, Chunky Tomato & Herbs Pasta Sauce", id: "Saus Pasta Bolognese dengan Daging Babi" },
+      { en: "Classic Herb Sauce", id: "Saus Tomat Klasik (Herb)" }
+    ]
   },
   kanokwan: {
     name: "Kanokwan",
@@ -78,15 +102,24 @@ const brandData = {
     category: "Sauces & Pastes",
     img: "assets/images/brands/kanokwan-product.jpg",
     desc: "Kanokwan is Thailand's premier brand of authentic curry pastes and cooking sauces, trusted by professional chefs and home cooks across Asia. CGP distributes the full Thai culinary range across Indonesia.",
-    products: ["Red Curry Paste 50g", "Green Curry Paste 50g", "Tom Yum Paste 30g", "Massaman Curry Paste 50g", "Pad Thai Paste 72g", "Holy Basil Sauce 200g", "All Purpose Stir Fry Sauce 200g"]
-  },
-  ccs: {
-    name: "CC's",
-    origin: "Australia",
-    category: "Snacks",
-    img: "assets/images/brands/ccs-product.jpg",
-    desc: "CC's corn chips by Snackbrands Australia are a market-leading snack brand known for their bold, authentic flavours. CGP brings the iconic range to premium Indonesian retail channels.",
-    products: ["Original Corn Chips", "Nacho Cheese", "Tasty Cheese", "BBQ"]
+    products: [
+      { en: "All Purpose Stir Fry Sauce", id: "Saus Bumbu Tumis" },
+      { en: "Aromatic Grill Chicken Seasoning Mix", id: "Bumbu Ayam Panggang" },
+      { en: "Green Curry Paste", id: "Bumbu Pasta Kari Hijau" },
+      { en: "Holy Basil Sauce", id: "Saus Bumbu Basil" },
+      { en: "Thai Eastern Style Soup Concentrate (Jaew Hon)", id: "Bumbu Kari Jaew Hon" },
+      { en: "Korean BBQ Sauce", id: "Saus BBQ" },
+      { en: "Kua Kling Stir Fry Curry Sauce", id: "Bumbu Rasa Kari" },
+      { en: "Massaman Curry Paste", id: "Pasta Bumbu Kari" },
+      { en: "Oriental Braised Beef Seasoning Paste", id: "Bumbu Pasta Daging" },
+      { en: "Pad Thai Paste", id: "Bumbu Pasta" },
+      { en: "Panang Curry Paste", id: "Bumbu Kari Panang Pasta" },
+      { en: "Red Curry Paste", id: "Bumbu Pasta Kari Merah" },
+      { en: "Japanese Style Sukiyaki Soup", id: "Bumbu Sukiyaki ala Jepang" },
+      { en: "Tom Kha Paste", id: "Bumbu Pasta Tom Kha" },
+      { en: "Tom Yum Paste", id: "Bumbu Pasta Tom Yum" },
+      { en: "Yellow Curry Paste", id: "Bumbu Pasta Kari Kuning" }
+    ]
   },
   edgell: {
     name: "Edgell",
@@ -94,7 +127,12 @@ const brandData = {
     category: "Canned Goods",
     img: "assets/images/brands/edgell-product.jpg",
     desc: "Edgell is Australia's leading brand of canned and frozen vegetables — a staple in professional kitchens and premium households for over 80 years. The full canned vegetable range is distributed by CGP across Indonesia.",
-    products: ["Corn Kernels", "Four Bean Mix", "Red Kidney Beans", "Sliced Beetroot", "Chickpeas"]
+    products: [
+      { en: "Red Kidney Beans", id: "Kacang Merah dalam Kaleng" },
+      { en: "Corn Kernels", id: "Jagung dalam Kaleng" },
+      { en: "Four Beans Mix", id: "Campuran Kacang dalam Kaleng" },
+      { en: "Sliced Beetroot", id: "Irisan Bit dalam Larutan Gula dan Garam" }
+    ]
   },
   johnwest: {
     name: "John West",
@@ -102,7 +140,19 @@ const brandData = {
     category: "Canned Goods",
     img: "assets/images/brands/johnwest-product.jpg",
     desc: "John West is an iconic Australian seafood brand with a rich heritage in sustainable, premium-quality canned tuna and salmon. CGP distributes the range to modern retail and food service channels in Indonesia.",
-    products: ["Tuna in Springwater", "Tuna in Oil", "Salmon Red", "Salmon Pink", "Tuna in Sweet Chilli"]
+    products: [
+      { en: "Anchovies Fillets in Olive Oil", id: "Ikan Teri dalam Minyak Zaitun" },
+      { en: "Salmon Chilli", id: "Salmon dalam Saus Cabe" },
+      { en: "Salmon Lemon & Cracked Pepper", id: "Salmon dengan campuran Lemon & Lada" },
+      { en: "Salmon Lime, Ginger, & Chilli", id: "Salmon dengan campuran Jeruk Nipis, Jahe, & Cabe" },
+      { en: "Salmon Olive Oil Blend", id: "Salmon dengan campuran Minyak Zaitun" },
+      { en: "Salmon Slice in Springwater", id: "Irisan Salmon" },
+      { en: "Salmon Sliced Smoked", id: "Irisan Salmon Asap" },
+      { en: "Salmon Springwater", id: "Salmon dalam Kaleng" },
+      { en: "Salmon Teriyaki", id: "Salmon Teriyaki" },
+      { en: "Tuna with Brown & Red Rice, Lime, Lemongrass & Chickpeas", id: "Tuna dengan campuran Beras Coklat & Merah, dan Kacang Arab" },
+      { en: "Tuna with Capsicum, Sweetcorn, Chilli & Red Kidney Bean Mix", id: "Tuna dengan campuran Paprika, Jagung Manis, dan Kacang Merah" }
+    ]
   },
   manuka: {
     name: "Barnes Naturals",
@@ -110,55 +160,69 @@ const brandData = {
     category: "Wellness & Health",
     img: "assets/images/brands/manuka-product.jpg",
     desc: "Barnes Naturals offers premium Australian Manuka honey and Apple Cider Vinegar products — a growing segment in Indonesia's premium health and wellness retail sector.",
-    products: ["Manuka Honey MGO 100+", "Manuka Honey MGO 250+", "Apple Cider Vinegar with Manuka Honey", "Raw Apple Cider Vinegar 750ml"]
+    products: [
+      { en: "Apple Cider Vinegar with Turmeric, Ginger, Moringa Leaf and Honey", id: "Cuka Apel dengan Kunyit, Jahe, Daun Kelor dan Madu" },
+      { en: "Apple Cider Vinegar", id: "Cuka Apel" },
+      { en: "Manuka Honey", id: "Madu Manuka" },
+      { en: "Pure Australian Honey", id: "Madu Australia Murni" }
+    ]
   },
   oho: {
-    name: "Oho",
+    name: "oho!",
     origin: "Australia",
     category: "Snacks",
     img: null,
-    desc: "Oho is a healthy snack brand offering a range of roasted nuts and trail mixes positioned for the premium convenience channel.",
-    products: ["Roasted Mixed Nuts", "Trail Mix", "Salted Cashews", "Honey Roasted Almonds"]
+    desc: "oho! is a contemporary Australian snack brand producing extruded lentil chips in bold flavours — a premium, better-for-you snack for the modern trade and specialty grocery channels.",
+    products: [
+      { en: "Lentil Chips Cheddar Cheese Taste", id: "Makanan Ringan Ekstrudat Stik Lentil Rasa Keju" },
+      { en: "Lentil Chips Maple Bacon Taste", id: "Makanan Ringan Ekstrudat Stik Lentil Rasa Maple Bacon" },
+      { en: "Lentil Chips Sour Cream and Onion Taste", id: "Makanan Ringan Ekstrudat Stik Lentil Rasa Krim Asam dan Bawang Bombay" },
+      { en: "Lentil Chips with Lime and Jalapeno Taste", id: "Makanan Ringan Ekstrudat Stik Lentil Rasa Jeruk Nipis dan Jalapeno" }
+    ]
   },
   fnv: {
     name: "FNV",
     origin: "Australia",
-    category: "Canned Goods",
+    category: "Snacks",
     img: null,
-    desc: "FNV is a value-tier canned vegetable range offering quality produce for the food service sector and premium supermarkets.",
-    products: ["Canned Corn", "Canned Green Peas", "Canned Tomatoes"]
+    desc: "FNV produces premium wholegrain snack bars combining brown rice with nuts, seaweed, and protein — a better-for-you snack brand for the premium convenience and specialty grocery channel.",
+    products: [
+      { en: "Seaweed Walnut Brown Rice Bar", id: "Makanan Ringan Berbentuk Bar dengan Campuran Rumput Laut, Kacang Kenari dan Beras Merah" },
+      { en: "Almond Brown Rice Bar with Pork Floss", id: "Makanan Ringan Berbentuk Bar dengan Kacang Almond, Beras Merah, dan Abon Babi" },
+      { en: "Boat Cake and Nutritional Nuts", id: "Makanan Ringan Berbentuk Bar dengan Campuran aneka Kacang" },
+      { en: "Seaweed Chicken Breast Brown Rice Bar", id: "Makanan Ringan Berbentuk Bar dengan Campuran Rumput Laut, Dada Ayam, dan Beras Merah" }
+    ]
   },
   namxanh: {
     name: "Nam Xanh",
     origin: "Vietnam",
-    category: "Sauces & Pastes",
+    category: "Snacks",
     img: null,
-    desc: "Nam Xanh brings authentic Vietnamese culinary heritage to Indonesian kitchens — featuring fermented sauces, chilli blends, and traditional condiments.",
-    products: ["Fish Sauce", "Hoisin Sauce", "Chilli Sauce", "Soy Sauce"]
-  },
-  sohatea: {
-    name: "Soha Tea",
-    origin: "Vietnam",
-    category: "Wellness & Health",
-    img: null,
-    desc: "Soha Tea is a premium Vietnamese herbal tea brand distributed through specialty and premium retail channels across Indonesia.",
-    products: ["Green Tea", "Jasmine Tea", "Lotus Tea", "Artichoke Tea"]
+    desc: "Nam Xanh brings authentic Vietnamese confectionery to Indonesian kitchens — artisanal lotus seeds, pomelo peels, and candied ginger that blend traditional craft with modern snacking.",
+    products: [
+      { en: "Pomelo Peels Coated With Paprika Chili", id: "Kulit Buah Bersalut Paprika" },
+      { en: "Pomelo Peels Coated With Pickled Apricots", id: "Kulit Buah Bersalut Pikel Aprikot" },
+      { en: "Grilled Ginger With Honey", id: "Irisan Jahe dengan Madu" },
+      { en: "Lotus Seeds Coated With Ginger and Honey", id: "Biji Teratai dengan Jahe dan Madu" },
+      { en: "Lotus Seeds Coated With Coconut and Honey", id: "Biji Teratai dengan Kelapa dan Madu" },
+      { en: "Dried Lotus Seeds", id: "Biji Teratai Kering" },
+      { en: "Mango Spring Roll", id: "Makanan Pencuci Mulut Berbasis Buah Mangga" }
+    ]
   },
   missvietspice: {
     name: "Miss Vietspice",
     origin: "Vietnam",
     category: "Sauces & Pastes",
     img: null,
-    desc: "Miss Vietspice is a premium Vietnamese spice and condiment brand bringing authentic Southeast Asian flavour profiles to retail and food service.",
-    products: ["Pho Spice Mix", "Lemongrass Paste", "Vietnamese Curry Powder", "Banh Mi Sauce"]
-  },
-  stonbarn: {
-    name: "Stonbarn",
-    origin: "Australia",
-    category: "Wellness & Health",
-    img: null,
-    desc: "Stonbarn is an Australian brand of premium honey and natural pantry staples, distributed across modern trade channels in Indonesia.",
-    products: ["Pure Clover Honey", "Raw Wildflower Honey", "Creamed Honey"]
+    desc: "Miss Vietspice is a premium Vietnamese seasoning brand bringing authentic Southeast Asian flavour profiles — marinades, ragouts, and curry blends — to retail and food service.",
+    products: [
+      { en: "BBQ Seasoning", id: "Bumbu BBQ" },
+      { en: "Beef Ragout Seasoning", id: "Bumbu Ragout Sapi" },
+      { en: "Seasoning of Braised Chicken with Chilli and Lemongrass", id: "Bumbu Marinasi Ayam dengan Cabe dan Sereh" },
+      { en: "Seasoning of Braised Fish with Turmeric", id: "Bumbu Marinasi Ikan dengan Kunyit" },
+      { en: "Bun Bo Seasoning", id: "Bumbu Bun Bo" },
+      { en: "Japanese Curry Seasoning", id: "Bumbu Kari Jepang" }
+    ]
   }
 };
 
@@ -167,29 +231,46 @@ const categoryData = {
     name: "Sauces & Pastes",
     img: "assets/images/brands/kanokwan-header.jpg",
     desc: "From Thai curry pastes to Italian tomato sauces, our portfolio covers the full spectrum of premium cooking sauces and pastes.",
-    products: ["Kanokwan — Full Thai Paste Range", "Leggo's — Italian Pasta Sauces", "Nam Xanh — Vietnamese Condiments", "Miss Vietspice — Southeast Asian Spices"]
+    products: ["Leggo's — Italian Pasta Sauces & Passata", "Kanokwan — Full Thai Paste & Sauce Range", "Miss Vietspice — Vietnamese Seasoning Blends"]
   },
   canned: {
     name: "Canned Goods",
     img: "assets/images/brands/edgell-product.jpg",
     desc: "Premium canned vegetables and seafood from trusted Australian brands — serving modern retail and food service channels.",
-    products: ["Edgell — Canned Vegetables", "John West — Canned Tuna & Salmon", "FNV — Canned Produce Range"]
+    products: ["Edgell — Canned Vegetables & Beans", "John West — Canned Tuna, Salmon & Anchovies"]
   },
   snacks: {
     name: "Snacks",
-    img: "assets/images/brands/ccs-product.jpg",
-    desc: "Market-leading Australian snack brands — positioned for premium retail, modern trade, and food service.",
-    products: ["CC's by Snackbrands — Corn Chips Range", "Oho — Roasted Nuts & Trail Mixes"]
+    img: "assets/images/brands/edgell-product.jpg",
+    desc: "Better-for-you snack brands — lentil chips, brown rice bars, and Vietnamese confectionery — positioned for premium retail and specialty grocery.",
+    products: ["oho! — Lentil Chips", "FNV — Brown Rice Snack Bars", "Nam Xanh — Vietnamese Confectionery"]
   },
   wellness: {
     name: "Wellness & Health",
     img: "assets/images/brands/manuka-product.jpg",
-    desc: "A curated selection of premium wellness products including Manuka honey, apple cider vinegar, and herbal teas — catering to Indonesia's fast-growing health consumer segment.",
-    products: ["Barnes Naturals — Manuka Honey & ACV", "Stonbarn — Premium Australian Honey", "Soha Tea — Vietnamese Herbal Teas"]
+    desc: "Premium wellness products — Manuka honey and apple cider vinegar — catering to Indonesia's fast-growing health consumer segment.",
+    products: ["Barnes Naturals — Manuka Honey, ACV & Pure Australian Honey"]
   }
 };
 
+let currentModalData = null;
+
+function renderModalProducts(data) {
+  modalProducts.innerHTML = '';
+  (data.products || []).forEach(p => {
+    const li = document.createElement('li');
+    if (typeof p === 'string') {
+      // Category roll-ups stay language-neutral
+      li.textContent = p;
+    } else {
+      li.textContent = currentLang === 'ID' ? (p.id || p.en) : (p.en || p.id);
+    }
+    modalProducts.appendChild(li);
+  });
+}
+
 function openModal(data) {
+  currentModalData = data;
   modalTitle.textContent = data.name;
   modalOrigin.textContent = data.origin || '';
   modalCategory.textContent = data.category || '';
@@ -202,12 +283,7 @@ function openModal(data) {
     modalImg.style.display = 'none';
   }
 
-  modalProducts.innerHTML = '';
-  (data.products || []).forEach(p => {
-    const li = document.createElement('li');
-    li.textContent = p;
-    modalProducts.appendChild(li);
-  });
+  renderModalProducts(data);
 
   modalBackdrop.classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -216,6 +292,7 @@ function openModal(data) {
 function closeModal() {
   modalBackdrop.classList.remove('open');
   document.body.style.overflow = '';
+  currentModalData = null;
 }
 
 document.querySelectorAll('[data-modal]').forEach(el => {
